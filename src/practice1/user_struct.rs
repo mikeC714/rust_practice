@@ -2,45 +2,45 @@ use std::io;
 use std::io::Write;
 
 #[derive(Debug)]
-struct User {
+struct User{
     index: usize,
     name: String,
     username: String,
-    email: String
 }
 
 
-fn get_input(prompt: &str) -> String{
+
+fn get_input(prompt: &str) -> Result<String, Box<dyn std::error::Error>>{
     println!("{}", prompt);
 
     io::stdout()
-        .flush()
-        .unwrap();
-    
+        .flush()?;
+
     let mut input: String = String::new();
     io::stdin()
-        .read_line(&mut input)
-        .unwrap();
-    
-    return input.trim().to_string();
+        .read_line(&mut input)?;
+
+    return Ok(input.trim().to_string());
 }
 
 
-fn main(){
+fn main() -> Result<(), Box<dyn std::error::Error>>{
     let mut db: Vec<User> = Vec::new();
     loop{
-        let name = get_input("Please Enter Name.");
-        let email = get_input("Please Enter Email");
-        let username = get_input("Please Enter A Username");
+        let name = get_input("Please Input Your Name.")?;
+        let username = get_input("Please Input Your Username")?; 
+
+        if name == "stop" || username == "stop"{
+            break
+        };
 
         db.push(User{
-            index: db.len() + 1,
+            index: db.len() +1,
             name,
-            email,
             username
         });
 
         println!("{:#?}", db)
     }
+    Ok(())
 }
-
