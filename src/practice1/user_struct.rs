@@ -1,10 +1,12 @@
 use std::io;
 use std::io::Write;
 
-struct User <'a> {
-    name: &'a str,
-    username: &'a str,
-    email: &'a str
+#[derive(Debug)]
+struct User {
+    index: usize,
+    name: String,
+    username: String,
+    email: String
 }
 
 
@@ -25,19 +27,20 @@ fn get_input(prompt: &str) -> String{
 
 
 fn main(){
-    let name = get_input("Please Enter Name.");
-    let email = get_input("Please Enter Email");
-    let username = get_input("Please Enter A Username");
+    let mut db: Vec<User> = Vec::new();
+    loop{
+        let name = get_input("Please Enter Name.");
+        let email = get_input("Please Enter Email");
+        let username = get_input("Please Enter A Username");
 
-    let user1 = User{
-        name: &name,
-        email: &email,
-        username: &username
-    };
+        db.push(User{
+            index: db.len() + 1,
+            name,
+            email,
+            username
+        });
 
-    println!{"{:#?}", user1.name};
-    println!{"{:#?}", user1.username};
-    println!{"{:#?}", user1.email};
+        println!("{:#?}", db)
+    }
 }
-
 
