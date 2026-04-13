@@ -8,11 +8,15 @@ struct User{
     username: String,
 }
 
+// Creating a Type to limit how verbose Result syntax, since it's being reused
+type Result<T> = Result<T, Box<dyn std::error::Error>>;
 
-
-fn get_input(prompt: &str) -> Result<String, Box<dyn std::error::Error>>{
+fn get_input(prompt: &str) -> Result<String>{
     println!("{}", prompt);
 
+    // Error propagation "?"  instead of using match or unwrap.
+    // Error propagation when Ok<T> returns the unwrapped value.
+    // Whereas if Err it short curcuits the function possibly crashing application.
     io::stdout()
         .flush()?;
 
@@ -24,7 +28,7 @@ fn get_input(prompt: &str) -> Result<String, Box<dyn std::error::Error>>{
 }
 
 
-fn main() -> Result<(), Box<dyn std::error::Error>>{
+fn main() -> Result<()>{
     let mut db: Vec<User> = Vec::new();
     loop{
         let name = get_input("Please Input Your Name.")?;
