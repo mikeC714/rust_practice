@@ -9,7 +9,7 @@ struct User{
 }
 
 // Creating a Type to limit how verbose Result syntax, since it's being reused
-type Result<T> = Result<T, Box<dyn std::error::Error>>;
+type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 
 fn get_input(prompt: &str) -> Result<String>{
     println!("{}", prompt);
